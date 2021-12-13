@@ -1,6 +1,6 @@
 module "oci-adb" {
   source                                = "github.com/oracle-quickstart/oci-adb"
-  adb_password                          = var.dbpwd-cipher
+  adb_password                          = var.ADW_password
   compartment_ocid                      = var.compartment_ocid
   adb_database_cpu_core_count           = var.ADW_database_cpu_core_count
   adb_database_data_storage_size_in_tbs = var.ADW_database_data_storage_size_in_tbs
