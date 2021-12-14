@@ -5,10 +5,10 @@ resource "oci_datacatalog_catalog" "lakehouse_catalog" {
 
 resource "oci_datacatalog_data_asset" "lakehouse_data_asset_adw" {
   catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
-  display_name = "Lakehousedb_us-ashburn-1"
+  display_name = "Lakehousedb"
   description  = "Autonomous Data Warehouse instance from compartment - lakehouse1 and region - US East (Ashburn)"
   properties = {
-    "default.database"        = "Lakehousedb_us-ashburn-1"
+    "default.database"        = "Lakehousedb"
     "default.privateendpoint" = ""
   }
   type_key = "38320846-a7c3-465f-b88d-4fb1a0ee8389"
@@ -38,15 +38,19 @@ resource "oci_datacatalog_data_asset" "lakehouse_data_asset_bucket" {
   #type = Pre-authenticated request
 }
 
-resource oci_datacatalog_connection Lakehousedb_us-ashburn-1 {
+resource oci_datacatalog_connection Lakehousedb {
   catalog_id     = oci_datacatalog_catalog.lakehouse_catalog.id
   data_asset_key = oci_datacatalog_data_asset.lakehouse_data_asset_adw.key
-  display_name = "Lakehousedb_us-ashburn-1"
+  display_name = "Lakehousedb"
   is_default = "true"
   properties = {
     "default.alias"            = "lakehousedb_low"
     "default.username"         = "ADMIN"
     "default.walletAndSecrets" = "plainWallet"
+  }
+  enc_properties = {
+    "default.password"         = var.ADW_password
+    "default.wallet"           = module.oci-adb.adb_database.adb_wallet_content
   }
   type_key = "5a33e7be-c49b-4062-a842-d4972a626547"
   #type = Generic
