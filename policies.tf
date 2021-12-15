@@ -1,4 +1,5 @@
 
+/*
 resource "oci_identity_policy" "DataFlow" {
   provider = oci.homeregion
   name           = "DataFlowAdmin"
@@ -12,3 +13,4 @@ resource "oci_identity_policy" "DataFlow" {
     command = "sleep 5"
   }
 }
+*/

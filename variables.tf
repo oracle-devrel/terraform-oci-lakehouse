@@ -42,6 +42,18 @@ variable "ADW_database_license_model" {
   default = "LICENSE_INCLUDED"
 }
 
-variable "catalog_display_name" {
+variable "data_catalog_display_name" {
   default = "lakehousecatalog"
+}
+
+variable "data_lake_preauth_request_access_type" {
+  default = "AnyObjectReadWrite"
+}
+
+variable "data_lake_preauth_request_bucket_listing_action" {
+  default = "ListObjects"
+}
+
+variable "data_lake_preauth_request_time_expires" {
+  default = "2121-01-01T00:00:00Z"
 }
