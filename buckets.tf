@@ -37,14 +37,14 @@ resource "oci_objectstorage_preauthrequest" "data_lake_par" {
 resource "oci_objectstorage_object" "test_object" {
     bucket = oci_objectstorage_bucket.data_lake.name
     namespace = data.oci_objectstorage_namespace.bucket_namespace.namespace
-    source = "/Users/nunogoncalves/shakespeare.json"
+    source = "~/shakespeare.json"
     object = "shakespeare.json"
 }
 
 resource "oci_objectstorage_object" "test_object2" {
     bucket = oci_objectstorage_bucket.data_lake.name
     namespace = data.oci_objectstorage_namespace.bucket_namespace.namespace
-    source = "/Users/nunogoncalves/citibike-tripdata.csv"
+    source = "~/citibike-tripdata.csv"
     object = "citibike-tripdata.csv"
 }
 
