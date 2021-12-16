@@ -18,7 +18,7 @@ resource "oci_objectstorage_bucket" "dataflow-warehouse" {
 
 resource "oci_objectstorage_bucket" "data_lake" {
     compartment_id        = var.compartment_ocid
-    name                  = "data-lake"
+    name                  = var.data_lake_bucket_name
     namespace             = data.oci_objectstorage_namespace.bucket_namespace.namespace
     object_events_enabled = false
 }
@@ -40,3 +40,11 @@ resource "oci_objectstorage_object" "test_object" {
     source = "/Users/nunogoncalves/shakespeare.json"
     object = "shakespeare.json"
 }
+
+resource "oci_objectstorage_object" "test_object2" {
+    bucket = oci_objectstorage_bucket.data_lake.name
+    namespace = data.oci_objectstorage_namespace.bucket_namespace.namespace
+    source = "/Users/nunogoncalves/citibike-tripdata.csv"
+    object = "citibike-tripdata.csv"
+}
+

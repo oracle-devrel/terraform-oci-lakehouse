@@ -46,6 +46,10 @@ variable "data_catalog_display_name" {
   default = "lakehousecatalog"
 }
 
+variable "data_lake_bucket_name" {
+  default = "data-lake"
+}
+
 variable "data_lake_preauth_request_access_type" {
   default = "AnyObjectReadWrite"
 }

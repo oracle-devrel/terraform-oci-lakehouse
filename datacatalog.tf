@@ -5,10 +5,10 @@ resource "oci_datacatalog_catalog" "lakehouse_catalog" {
 
 resource "oci_datacatalog_data_asset" "lakehouse_data_asset_adw" {
   catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
-  display_name = "Lakehousedb"
-  description  = "Autonomous Data Warehouse instance from compartment - lakehouse1 and region - US East (Ashburn)"
+  display_name = "${var.ADW_database_display_name}_data_asset"
+  description  = "Autonomous Data Warehouse instance and region"
   properties = {
-    "default.database"        = "Lakehousedb"
+    "default.database"        = var.ADW_database_db_name
     "default.privateendpoint" = ""
   }
   type_key = "38320846-a7c3-465f-b88d-4fb1a0ee8389"
@@ -28,7 +28,7 @@ resource "oci_datacatalog_data_asset" "lakehouse_data_asset_bucket" {
 
 resource "oci_datacatalog_data_asset" "lakehouse_data_asset_data_lake" {
   catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
-  display_name = "data-lake"
+  display_name = "${var.data_lake_bucket_name}_data_asset"
     properties = {
       "default.namespace" = data.oci_objectstorage_namespace.bucket_namespace.namespace
       "default.url"       = "https://swiftobjectstorage.${var.region}.oraclecloud.com"
@@ -37,10 +37,10 @@ resource "oci_datacatalog_data_asset" "lakehouse_data_asset_data_lake" {
   #type = Object Storage
 }
 
-resource oci_datacatalog_connection Lakehousedb {
+resource oci_datacatalog_connection lakehousedb_connection {
   catalog_id     = oci_datacatalog_catalog.lakehouse_catalog.id
   data_asset_key = oci_datacatalog_data_asset.lakehouse_data_asset_adw.key
-  display_name = "Lakehousedb"
+  display_name = "${var.ADW_database_display_name}_data_connection"
   is_default = "true"
   properties = {
     "default.alias"            = "lakehousedb_low"
@@ -70,7 +70,7 @@ resource oci_datacatalog_connection json_connection {
 resource oci_datacatalog_connection data_lake_connection {
   catalog_id     = oci_datacatalog_catalog.lakehouse_catalog.id
   data_asset_key = oci_datacatalog_data_asset.lakehouse_data_asset_data_lake.key
-  display_name = "data_lake_connection"
+  display_name = "${var.data_lake_bucket_name}_data_connection"
   is_default = "true"
   properties = {
     "default.parUrl" = "https://objectstorage.${var.region}.oraclecloud.com${oci_objectstorage_preauthrequest.data_lake_par.access_uri}"
