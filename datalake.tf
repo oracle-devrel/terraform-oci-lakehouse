@@ -10,7 +10,6 @@ resource "oci_objectstorage_bucket" "data_lake" {
 }
 
 resource "oci_objectstorage_preauthrequest" "data_lake_par" {
-    #Required
     access_type = var.data_lake_preauth_request_access_type
     bucket = oci_objectstorage_bucket.data_lake.name
     bucket_listing_action = var.data_lake_preauth_request_bucket_listing_action
