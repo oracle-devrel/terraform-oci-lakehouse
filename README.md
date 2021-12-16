@@ -10,7 +10,7 @@ The current version of the code includes:
 
 ## Prerequisites
 
-- Permission to `manage` the following types of resources in your Oracle Cloud Infrastructure tenancy: `buckets`, `database-family`, `data-catalog-family`, `policies`.
+- Permission to `manage` the following types of resources in your Oracle Cloud Infrastructure tenancy: `buckets`, `database-family`, `data-catalog-family`.
 
 - Quota to create the following resources: 1 ADW, 1 bucket, 1 data catalog.
 
