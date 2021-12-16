@@ -12,5 +12,5 @@ module "oci-adb" {
   adb_database_db_workload              = "DW"
   use_existing_vcn                      = false
   adb_private_endpoint                  = false
-  //defined_tags                          = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  defined_tags                          = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }

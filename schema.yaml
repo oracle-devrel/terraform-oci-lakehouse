@@ -1,0 +1,78 @@
+## Copyright © 2020, Oracle and/or its affiliates. 
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
+title: "Deploy a data lakehouse architecture"
+stackDescription: "Deploy a data lakehouse architecture"
+schemaVersion: 1.1.0
+version: "20190404"
+locale: "en"
+
+variableGroups:
+- title: General Configuration
+  visible: false
+  variables:
+  - tenancy_ocid
+  - region
+  - release
+
+- title: Required Configuration
+  visible: true  
+  variables:
+  - compartment_ocid
+  - show_advanced 
+
+- title: Data Lake Optional Configuration
+  visible: 
+      and:
+        - show_advanced
+  variables:      
+  - data_lake_bucket_name
+  - data_lake_preauth_request_time_expires
+
+    
+variables:
+  
+  show_advanced:
+    type: boolean
+    title: "Show advanced options?"
+    description: "Shows advanced options."
+    visible: true
+    default: false
+
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    required: true
+    visible: true
+    title: "Compartment"
+    description: "Choose the compartment where you want to create the solution resources"
+
+  region:
+    type: oci:identity:region:name
+    required: true
+    visible: true
+    title: "Region"
+    description: "Choose the region where you want to deploy the resources defined by this stack."
+
+  # Optional Configuration
+
+  data_lake_bucket_name:
+    type: string
+    required: false
+    default: "data_lake_bucket_name"
+    title: "Data Lake Bucket Name"
+    description: "Choose the Data Lake bucket name"
+  
+  data_lake_preauth_request_time_expires:
+    type: date
+    required: false
+    default: "data_lake_preauth_request_time_expires"
+    title: "Pre-Authenticated Request expiration date"
+    description: "Define a custom expiration date for your Pre-Authenticated Request"
+
+outputs:
+
+  par_request_uri:
+    title: "Data Lake Pre-Authenticated Request URI"
+    displayText: "Data Lake Pre-Authenticated Request URI"
+    type: copyableString
+    visible: true
