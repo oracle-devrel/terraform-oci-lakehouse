@@ -1,6 +1,7 @@
 resource "oci_datacatalog_catalog" "lakehouse_catalog" {
   compartment_id = var.compartment_ocid
   display_name = var.data_catalog_display_name
+  defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 resource "oci_datacatalog_data_asset" "lakehouse_data_asset_adw" {
