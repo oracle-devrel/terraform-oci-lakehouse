@@ -1,0 +1,180 @@
+## Copyright © 2020, Oracle and/or its affiliates. 
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
+title: "Deploy a data lakehouse architecture"
+stackDescription: "Deploy a data lakehouse architecture"
+schemaVersion: 1.1.0
+version: "20190404"
+locale: "en"
+
+variableGroups:
+- title: General Configuration
+  visible: false
+  variables:
+  - tenancy_ocid
+  - region
+  - release
+  - ADW_database_db_name
+  - ADW_database_display_name
+  - ADW_database_freeform_tags
+  - ADW_database_defined_tags_value
+
+- title: Required Configuration
+  visible: true  
+  variables:
+  - compartment_ocid
+  - show_advanced 
+  - ADW_database_password
+
+- title: Data Lake Optional Configuration
+  visible: 
+      and:
+        - show_advanced
+  variables:      
+  - data_lake_bucket_name
+
+- title: Data Catalog Optional Configuration
+  visible: 
+      and:
+        - show_advanced
+  variables:      
+  - data_catalog_display_name
+
+- title: Autonomous DB Optional Configuration
+  visible: 
+      and:
+        - show_advanced
+  variables:      
+  - ADW_database_cpu_core_count
+  - ADW_database_data_storage_size_in_tbs
+  - ADW_database_db_version
+  - ADW_database_license_model
+
+variables:
+  
+  show_advanced:
+    type: boolean
+    title: "Show advanced options?"
+    description: "Shows advanced options."
+    visible: true
+    default: false
+
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    required: true
+    visible: true
+    title: "Compartment"
+    description: "Choose the compartment where you want to create the solution resources"
+
+  region:
+    type: oci:identity:region:name
+    required: true
+    visible: true
+    title: "Region"
+    description: "Choose the region where you want to deploy the resources defined by this stack."
+
+  ADW_database_password:
+    type: password
+    required: true
+    visible: true
+    default: ""
+    title: "ADW Database password for ADMIN user"
+    description: "The password must start with a letter, and it can contain letters (uppercase, lowercase), numbers, and the symbols _ $ #" 
+    minLength: 12
+    maxLength: 30
+    pattern: ^[A-Za-z][A-Za-z0-9_#\$]+$ 
+
+  # Optional Configuration
+
+  data_lake_bucket_name:
+    type: string
+    required: false
+    default: "data-lake"
+    title: "Data Lake Object Storage Bucket Name"
+    description: "Choose the Data Lake bucket name"
+
+  data_catalog_display_name:
+    type: string
+    required: false
+    default: "lakehousecatalog"
+    title: "Data Catalog Display Name"
+    description: "Choose the Data Catalog display name"
+
+  ADW_database_cpu_core_count:
+    type: number
+    required: false
+    minimum: 1
+    maximum: 128
+    multipleOf: 1
+    default: 1
+    title: "ADW Database CPU Core Count"
+    description: "Choose ADW Database CPU core count"
+
+  ADW_database_data_storage_size_in_tbs:
+    type: number
+    required: false
+    minimum: 1
+    maximum: 128
+    multipleOf: 1
+    default: 1
+    title: "ADW Database Data Storage size in Terabytes"
+    description: "Choose ADW Database Data Storage size in Terabytes"
+
+  ADW_database_db_name:
+    type: string
+    required: false
+    default: "ADWDB"
+    title: "ADW Database DBNAME"
+    description: "Choose ADW Database DBNAME"
+
+  ADW_database_display_name:
+    type: string
+    required: false
+    default: "lakehousedb"
+    title: "ADW Database Display Name"
+    description: "Choose ADW Database Display Name"
+
+  ADW_database_db_version:
+    type: enum
+    required: false
+    default: "19c"
+    title: "ADW Database Version"
+    description: "Choose ADW Database Version"
+    enum:
+      - "19c"
+
+  ADW_database_license_model:
+    type: enum
+    required: false
+    default: "LICENSE_INCLUDED"
+    title: "ADW Database License Model"
+    description: "Choose ADW Database License Model"
+    enum:
+      - "LICENSE_INCLUDED"
+      - "BRING_YOUR_OWN_LICENSE"
+
+outputs:
+
+  data_lake_name:
+    title: "Data Lake bucket name"
+    displayText: "Data Lake bucket name"
+    type: copyableString
+    visible: true
+
+  data_catalog_name:
+    title: "Data Catalog name"
+    displayText: "Data Catalog name"
+    type: copyableString
+    visible: true
+
+  database_name:
+    title: "ADW Database name"
+    displayText: "ADW Database name"
+    type: copyableString
+    visible: true
+
+  database_display_name:
+    title: "ADW Database display name"
+    displayText: "ADW Database display name"
+    type: copyableString
+    visible: true
