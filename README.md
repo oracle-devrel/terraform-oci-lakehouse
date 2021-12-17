@@ -72,17 +72,6 @@ Run the following commands:
     terraform plan
     terraform apply
 
-### Test the stack 
-
-ADD TEXT HERE
-
-```
-Outputs:
-
-par_request_url = "https://objectstorage.${var.region}.oraclecloud.com${oci_objectstorage_preauthrequest.data_lake_par.access_uri}"
-
-````
-
 ### Destroy the Deployment
 When you no longer need the deployment, you can run this command to destroy the resources:
 
