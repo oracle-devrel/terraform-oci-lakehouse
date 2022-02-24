@@ -11,79 +11,79 @@ data "template_file" "ad_names" {
 }
 
 data "oci_datacatalog_catalog_types" "resource_principal_connection" {
-    catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
+  catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
 
-    filter {
-        name = "name"
-        values = ["Resource Principal"]
-    }
-    filter {
-        name = "type_category"
-        values = ["connection"]
-    }
+  filter {
+    name   = "name"
+    values = ["Resource Principal"]
+  }
+  filter {
+    name   = "type_category"
+    values = ["connection"]
+  }
 }
 
 data "oci_datacatalog_catalog_types" "adw_generic_connection" {
-    catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
+  catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
 
-    filter {
-        name = "name"
-        values = ["Generic"]
-    }
-    filter {
-        name = "type_category"
-        values = ["connection"]
-    }
+  filter {
+    name   = "name"
+    values = ["Generic"]
+  }
+  filter {
+    name   = "type_category"
+    values = ["connection"]
+  }
 }
 
 data "oci_datacatalog_catalog_types" "adw_data_asset" {
-    catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
+  catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
 
-    filter {
-        name = "name"
-        values = ["Autonomous Data Warehouse"]
-    }
-    filter {
-        name = "type_category"
-        values = ["dataAsset"]
-    }
+  filter {
+    name   = "name"
+    values = ["Autonomous Data Warehouse"]
+  }
+  filter {
+    name   = "type_category"
+    values = ["dataAsset"]
+  }
 }
 
 data "oci_datacatalog_catalog_types" "objectstorage_data_asset" {
-    catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
+  catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
 
-    filter {
-        name = "name"
-        values = ["Oracle Object Storage"]
-    }
-    filter {
-        name = "type_category"
-        values = ["dataAsset"]
-    }
+  filter {
+    name   = "name"
+    values = ["Oracle Object Storage"]
+  }
+  filter {
+    name   = "type_category"
+    values = ["dataAsset"]
+  }
 }
 
 data "oci_datacatalog_catalog_types" "mysql_data_asset" {
-    catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
+  catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
 
-    filter {
-        name = "name"
-        values = ["MySQL"]
-    }
-    filter {
-        name = "type_category"
-        values = ["dataAsset"]
-    }
+  filter {
+    name   = "name"
+    values = ["MySQL"]
+  }
+  filter {
+    name   = "type_category"
+    values = ["dataAsset"]
+  }
 }
 
 data "oci_datacatalog_catalog_types" "mds_jdbc_connection" {
-    catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
+  catalog_id = oci_datacatalog_catalog.lakehouse_catalog.id
 
-    filter {
-        name = "name"
-        values = ["JDBC"]
-    }
-    filter {
-        name = "type_category"
-        values = ["connection"]
-    }
+  filter {
+    name   = "name"
+    values = ["JDBC"]
+  }
+  filter {
+    name   = "type_category"
+    values = ["connection"]
+  }
 }

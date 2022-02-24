@@ -6,10 +6,14 @@ This repository aims to automate the creation and integration of the multiple el
 The current version of the code includes:
 - Oracle Autonomous Data Warehouse  
 (when create_ADW = true; default = true) 
-- OCI MySQL DB System  
+- OCI MySQL DB System with HeatWave (optional)
 (when create_MDS = true; default = false)
 - OCI Object Storage as Data Lake
 - OCI Data Catalog, including the creation of Data Assets and Connections to ADW and Data Lake 
+
+## Architecture Diagram
+
+![](./images/data_lakehouse.png)
 
 ## Prerequisites
 

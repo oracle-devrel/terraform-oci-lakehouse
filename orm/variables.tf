@@ -158,6 +158,7 @@ variable "existing_private_route_table_ocid" {
   default     = ""
 }
 
+/*
 variable "existing_public_security_list_ocid" {
   description = "OCID of an existing public security list (ssh) to use"
   default     = ""
@@ -167,6 +168,7 @@ variable "existing_public_security_list_http_ocid" {
   description = "OCID of an existing security list allowing http and https to use"
   default     = ""
 }
+*/
 
 variable "existing_private_security_list_ocid" {
   description = "OCID of an existing private security list allowing MySQL access to use"
