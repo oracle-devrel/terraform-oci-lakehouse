@@ -1,4 +1,4 @@
-## Copyright © 2020, Oracle and/or its affiliates. 
+## Copyright © 2022, Oracle and/or its affiliates. 
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 title: "Deploy a data lakehouse architecture"
@@ -18,13 +18,26 @@ variableGroups:
   - ADW_database_display_name
   - ADW_database_freeform_tags
   - ADW_database_defined_tags_value
+  - existing_vcn_ocid
+  - existing_public_subnet_ocid
+  - existing_private_subnet_ocid
+  - existing_internet_gateway_ocid
+  - existing_nat_gateway_ocid
+  - existing_public_route_table_ocid
+  - existing_private_route_table_ocid
+  - existing_mds_instance_ocid
+  - existing_public_security_list_ocid
+  - existing_public_security_list_http_ocid
+  - existing_private_security_list_ocid
+  - existing_mds_instance_ocid
 
 - title: Required Configuration
   visible: true  
   variables:
   - compartment_ocid
-  - show_advanced 
-  - ADW_database_password
+  - create_ADW
+  - create_MDS
+  - show_advanced
 
 - title: Data Lake Optional Configuration
   visible: 
@@ -40,23 +53,90 @@ variableGroups:
   variables:      
   - data_catalog_display_name
 
-- title: Autonomous DB Optional Configuration
+- title: Autonomous DW Required Configuration
   visible: 
       and:
-        - show_advanced
+        - create_ADW
+  variables:      
+  - ADW_database_password
+  - ADW_show_advanced
+
+- title: MySQL DB System Required Configuration
+  visible: 
+      and:
+        - create_MDS
+  variables:      
+  - mysql_db_system_admin_username
+  - mysql_db_system_admin_password
+  - mysql_heatwave_enabled
+  - deploy_mds_ha
+  - MDS_show_advanced
+
+- title: Autonomous DW Optional Configuration
+  visible: 
+      and:
+        - create_ADW
+        - ADW_show_advanced
   variables:      
   - ADW_database_cpu_core_count
   - ADW_database_data_storage_size_in_tbs
   - ADW_database_db_version
   - ADW_database_license_model
 
+- title: MySQL DB System Optional Configuration
+  visible: 
+      and:
+        - create_MDS
+        - MDS_show_advanced
+  variables:      
+  - mysql_shape
+  - mysql_db_system_data_storage_size_in_gb
+  - mysql_db_system_description
+  - mysql_db_system_display_name
+  - mysql_db_system_fault_domain
+  - mysql_db_system_hostname_label
+  - mysql_db_system_maintenance_window_start_time
+  - vcn
+  - vcn_cidr
+
 variables:
-  
+
+  create_ADW:
+    type: boolean
+    title: "Create Autonomous Data Warehouse"
+    description: "Creates an ADW and displays ADW options."
+    visible: true
+    default: true
+
+  create_MDS:
+    type: boolean
+    title: "Create MySQL Database System"
+    description: "Creates an MDS and displays MDS options."
+    visible: true
+    default: false
+
   show_advanced:
     type: boolean
-    title: "Show advanced options?"
-    description: "Shows advanced options."
-    visible: true
+    title: "Show additional options"
+    description: "Shows additional options."
+    default: false
+
+  ADW_show_advanced:
+    type: boolean
+    title: "Show advanced ADW options"
+    description: "Shows advanced ADW options."
+    visible:
+        and:
+          - create_ADW
+    default: false
+
+  MDS_show_advanced:
+    type: boolean
+    title: "Show advanced MDS options"
+    description: "Shows advanced MDS options."
+    visible:
+        and:
+          - create_MDS
     default: false
 
   compartment_ocid:
@@ -76,9 +156,34 @@ variables:
   ADW_database_password:
     type: password
     required: true
-    visible: true
+    visible:
+        and:
+          - create_ADW
     default: ""
     title: "ADW Database password for ADMIN user"
+    description: "The password must start with a letter, and it can contain letters (uppercase, lowercase), numbers, and the symbols _ $ #" 
+    minLength: 12
+    maxLength: 30
+    pattern: ^[A-Za-z][A-Za-z0-9_#\$]+$ 
+
+  mysql_db_system_admin_username:
+    type: string
+    required: true
+    visible:
+        and:
+          - create_MDS
+    default: "admin"
+    title: "MySQL DB Username"
+    description: "MySQL Database System Username"
+
+  mysql_db_system_admin_password:
+    type: password
+    required: true
+    visible:
+        and:
+          - create_MDS
+    default: ""
+    title: "MySQL Database password"
     description: "The password must start with a letter, and it can contain letters (uppercase, lowercase), numbers, and the symbols _ $ #" 
     minLength: 12
     maxLength: 30
@@ -152,6 +257,76 @@ variables:
     enum:
       - "LICENSE_INCLUDED"
       - "BRING_YOUR_OWN_LICENSE"
+  
+  mysql_heatwave_enabled:
+    type: boolean
+    title: "Enable MySQL HeatWave"
+    description: "Defines whether a MySQL HeatWave cluster is enabled"
+    default: false
+  
+  deploy_mds_ha:
+    type: boolean
+    title: "Deploy MySQL DB High Availability"
+    description: "Enable High Availability for MDS"
+    default: false
+  
+  mysql_heatwave_shape:
+    type: string
+    title: "MySQL HeatWave Shape"
+    description: "The shape to be used instead of mysql_shape when mysql_heatwave_enabled = true."
+    visible:
+        and:
+          - create_MDS
+          - mysql_heatwave_enabled
+          - MDS_show_advanced
+
+  mysql_heatwave_cluster_size:
+    type: string
+    title: "MySQL HeatWave Cluster Size"
+    description: "Number of MySQL HeatWave nodes to be created."
+    visible:
+        and:
+          - create_MDS
+          - mysql_heatwave_enabled
+          - MDS_show_advanced
+
+  mysql_shape:
+    type: string
+    title: "MDS Shape"
+    description: "MySQL DB System Shape. Defines the OCPU and memory to be allocated to the MDS instance."
+  
+  mysql_db_system_data_storage_size_in_gb:
+    type: string
+    title: "MDS Data Storage Size (Gb)"
+
+  mysql_db_system_description:
+    type: string
+    title: "MDS Description"
+  
+  mysql_db_system_display_name:
+    type: string
+    title: "MDS Display Name"
+
+  mysql_db_system_hostname_label:
+    type: string
+    title: "MDS Hostname Label"
+
+  mysql_db_system_fault_domain:
+    type: string
+    title: "MDS Fault Domain"
+
+  mysql_db_system_maintenance_window_start_time: 
+    type: string
+    title: "MDS Maintenance Window Start Time"
+
+  vcn:
+    type: string
+    title: "VCN Name"
+
+  vcn_cidr:
+    type: string
+    title: "VCN CIDR"
+
 
 outputs:
 
@@ -178,3 +353,10 @@ outputs:
     displayText: "ADW Database display name"
     type: copyableString
     visible: true
+  
+  MDS_IP:
+    title: "MySQL DB System Private IP"
+    displayText: "MySQL DB System Private IP"
+    type: string
+    visible: true
+  
