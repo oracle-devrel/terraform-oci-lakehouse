@@ -57,7 +57,7 @@ variable "create_MDS" {
   default = false
 }
 
-variable "using_local_OCI_CLI" {
+variable "using_local_CLI" {
   default = false
 }
 

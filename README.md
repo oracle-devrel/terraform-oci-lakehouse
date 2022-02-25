@@ -25,9 +25,10 @@ If you don't have the required permissions and quota, contact your tenancy admin
 
 ## Known Issues
 
-There is a [bug](https://github.com/terraform-providers/terraform-provider-oci/issues/1540) in the creation of the Data Catalog Private Endpoint which is necessary for MySQL DB System connectivity. The problem exists when using Resource Manager and Cloud Shell, but it is not found when using a local OCI CLI setup.  
-The code currently has a variable `using_local_OCI_CLI` which defaults to 'true' in variables.tf, but to 'false' in orm/variables.tf, which is the one present in the release build (.zip file) and Deploy to Oracle Cloud button.
-When using ORM or Cloud Shell, if choosing to deploy a MySQL DB System, we recommend a manual deployment and attachment of the Data Catalog Private Endpoint.  
+There is a [bug](https://github.com/terraform-providers/terraform-provider-oci/issues/1540) in the creation of the Data Catalog Private Endpoint which is necessary for MySQL DB System connectivity. The problem exists when using Resource Manager and Cloud Shell, but it is not found when using a local Terraform CLI setup.  
+The code currently has a variable `using_local_CLI` which defaults to 'true' in variables.tf, but to 'false' in orm/variables.tf, which is the one present in the release build (.zip file) and Deploy to Oracle Cloud button.  
+When using a local Terraform CLI setup, the Data Catalog Private Endpoint will be deployed and attached automatically.  
+When using ORM or Cloud Shell, if choosing to deploy a MySQL DB System, we recommend a manual deployment and attachment of the Private Endpoint.  
 
 ## Deploy Using Oracle Resource Manager
 
