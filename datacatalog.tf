@@ -5,7 +5,7 @@ resource "oci_datacatalog_catalog" "lakehouse_catalog" {
   compartment_id                     = var.compartment_ocid
   display_name                       = var.data_catalog_display_name
   defined_tags                       = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
-  attached_catalog_private_endpoints = var.create_MDS && var.using_local_OCI_CLI ? [oci_datacatalog_catalog_private_endpoint.lakehouse_catalog_mysql_private_endpoint[0].id] : null
+  attached_catalog_private_endpoints = var.create_MDS && var.using_local_CLI ? [oci_datacatalog_catalog_private_endpoint.lakehouse_catalog_mysql_private_endpoint[0].id] : null
 }
 
 resource "oci_datacatalog_data_asset" "lakehouse_data_asset_adw" {
@@ -93,7 +93,7 @@ resource "oci_datacatalog_connection" "data_lake_connection" {
 }
 
 resource "oci_datacatalog_catalog_private_endpoint" "lakehouse_catalog_mysql_private_endpoint" {
-  count          = var.create_MDS && var.using_local_OCI_CLI ? 1 : 0
+  count          = var.create_MDS && var.using_local_CLI ? 1 : 0
   compartment_id = var.compartment_ocid
   dns_zones      = ["mysqlpriv.mysqlvcn.oraclevcn.com"]
   subnet_id      = local.private_subnet_id
