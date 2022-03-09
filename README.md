@@ -11,7 +11,7 @@ The current version of the code includes:
 - OCI Object Storage as Data Lake
 - OCI Data Catalog, including the creation of Data Assets and Connections to ADW and Data Lake 
 
-## Architecture Diagram
+## Architecture Diagrams
 
 ![](./images/data_lakehouse.png)
 
